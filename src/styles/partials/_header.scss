@@ -1,0 +1,28 @@
+header {
+  width: 100vw;
+  background-color: #fff;
+  padding: 13px 0;
+}
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  .logo-container .icon-logo {
+    display: block;
+  }
+  .header-btn-container {
+    display: flex;
+    margin-left: 16px;
+    .btn {
+      @include btn(100px);
+      &:nth-child(1) {
+        margin-right: 10px;
+      }
+    }
+  }
+  @media screen and (min-width: $tablet) {
+    justify-content: space-between;
+    .header-btn-container {
+      margin-left: 0;
+    }
+  }
+}

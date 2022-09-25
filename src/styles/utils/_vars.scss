@@ -1,0 +1,30 @@
+/* Colors */
+$primaryColor: #f4e041;
+$secondaryColor: #00bdd3;
+$hoverColor: #ffe302;
+$disabledColor: #b4b4b4;
+$errorInputColor: #cb3d40;
+$backgroundColor: #f8f8f8;
+$blackColor: rgba(0, 0, 0, 0.87);
+
+/* Breakpoints */
+$mobile: 360px;
+$tablet: 768px;
+$desktop: 1024px;
+$retina: 2560px;
+
+/* Mixins */
+@mixin btn($width) {
+  width: $width;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 80px;
+  background-color: $primaryColor;
+  transition: all 0.3s ease-in;
+  color: $blackColor;
+  &:hover {
+    background-color: $hoverColor;
+  }
+}
