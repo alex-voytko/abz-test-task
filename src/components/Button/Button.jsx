@@ -1,5 +1,9 @@
-function Button({ name, className = "btn" }) {
-  return <button className={className}>{name}</button>;
+function Button({ name, className = "btn", onClick }) {
+  return (
+    <button className={className} onClick={onClick}>
+      {name}
+    </button>
+  );
 }
 
 export default Button;

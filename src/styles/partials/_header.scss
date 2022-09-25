@@ -12,11 +12,8 @@ header {
   .header-btn-container {
     display: flex;
     margin-left: 16px;
-    .btn {
-      @include btn(100px);
-      &:nth-child(1) {
-        margin-right: 10px;
-      }
+    .btn:nth-child(1) {
+      margin-right: 10px;
     }
   }
   @media screen and (min-width: $tablet) {

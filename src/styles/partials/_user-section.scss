@@ -3,6 +3,55 @@
   .user-section-wrapper {
     .title {
       text-align: center;
+      margin-bottom: 50px;
+    }
+    .btn {
+      @include btn(120px);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .user-list {
+      margin-bottom: 50px;
+      .item {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        &:not(:last-child) {
+          margin-bottom: 20px;
+        }
+        p {
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        img {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          margin: 0 auto 20px auto;
+        }
+        .name {
+          margin-bottom: 20px;
+        }
+      }
+      @media screen and (min-width: $tablet) {
+        display: flex;
+        flex-wrap: wrap;
+        .item {
+          width: 344px;
+          margin-top: 16px;
+        }
+        .item:nth-child(odd) {
+          margin-right: 16px;
+        }
+        .item:not(:last-child) {
+          margin-bottom: unset;
+        }
+        .item:nth-child(-n + 2) {
+          margin-top: 0;
+        }
+      }
     }
   }
 }
