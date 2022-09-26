@@ -6,5 +6,122 @@
       text-align: center;
       margin-bottom: 50px;
     }
+    .form {
+      .input-container {
+        margin: 0 auto 25px auto;
+        .input-field-container {
+          position: relative;
+          margin-bottom: 50px;
+          label {
+            position: absolute;
+            top: 0;
+            left: 16px;
+            color: $inputPlaceholderColor;
+            background-color: $backgroundColor;
+            padding-left: 4px;
+            padding-right: 4px;
+            opacity: 0;
+            visibility: hidden;
+            transition: $standartAnimation;
+            &.is-errored {
+              color: $errorInputColor;
+              opacity: 1;
+              visibility: visible;
+              transform: translateY(-50%);
+            }
+          }
+          input::placeholder {
+            transition: $standartAnimation;
+          }
+          input {
+            width: 328px;
+            &:focus {
+              outline: none;
+              &::placeholder {
+                opacity: 0;
+              }
+            }
+            &:focus + label {
+              visibility: visible;
+              opacity: 1;
+              transform: translateY(-50%);
+            }
+            &.is-errored {
+              border: 1px solid $errorInputColor;
+              &::placeholder {
+                opacity: 0;
+              }
+            }
+          }
+          .validation-tip {
+            display: block;
+            font-size: 12px;
+            line-height: 14px;
+            padding-left: 16px;
+            margin-top: 4px;
+            color: $inputPlaceholderColor;
+            &.is-errored {
+              color: $errorInputColor;
+            }
+          }
+        }
+      }
+      .input-field-container:nth-last-child(1) {
+        margin-bottom: 0;
+      }
+      .radio-select-container {
+        & > p {
+          margin-bottom: 11px;
+        }
+        input {
+          display: none;
+        }
+        input:checked + .radio-label::before {
+          border: 1px solid $secondaryColor;
+        }
+        input:checked + .radio-label::after {
+          visibility: visible;
+          opacity: 1;
+        }
+        .radio-label {
+          display: block;
+          position: relative;
+          padding-left: 32px;
+          margin-bottom: 7px;
+          &::before {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            border: 1px solid $inputBorderColor;
+            @extend %inputAnimation;
+          }
+          &::after {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 10px;
+            height: 10px;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background-color: $secondaryColor;
+            visibility: hidden;
+            opacity: 0;
+            @extend %inputAnimation;
+          }
+        }
+      }
+      .btn {
+        display: block;
+        margin: 50px auto 0 auto;
+      }
+    }
   }
 }

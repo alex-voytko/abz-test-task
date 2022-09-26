@@ -1,13 +1,9 @@
-// import "../../images/svg/";
+import Image from "../Image";
 
 function UserItem({ photo, name, position, email, phone }) {
   return (
     <li className="item">
-      <img
-        src={photo}
-        alt={name}
-        onerror={`this.src='../../images/hero-img.jpeg';`}
-      />
+      <Image src={photo} alt={name} />
       <p className="name">{name}</p>
       <p className="position">{position}</p>
       <p className="email">{email}</p>

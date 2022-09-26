@@ -1,10 +1,11 @@
 /* Basic CSS */
-@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500&display=swap");
 body {
   font-family: "Nunito", sans-serif;
   background-color: $backgroundColor;
 }
-p {
+p,
+label {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -27,5 +28,16 @@ button {
   }
   &.btn {
     @include btn(100px);
+  }
+}
+input {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid $inputBorderColor;
+  border-radius: 4px;
+  color: $blackColor;
+  background-color: transparent;
+  &::placeholder {
+    color: $inputPlaceholderColor;
   }
 }
