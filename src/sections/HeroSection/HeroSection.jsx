@@ -1,10 +1,12 @@
+import { Link } from "react-scroll/modules";
+
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
 
-function HeroSection() {
+function HeroSection({ isRegistered }) {
   return (
-    <section className="hero-section">
+    <section id="hero-section">
       <Container>
         <Container className="hero-section-wrapper">
           <Title priority={1}>Test assignment for front-end developer</Title>
@@ -15,7 +17,11 @@ function HeroSection() {
             mind. They should also be excited to learn, as the world of
             Front-End Development keeps evolving.
           </p>
-          <Button name="Sign up" />
+          {!isRegistered && (
+            <Link to="form-anchor" spy={true} smooth={true} duration={1000}>
+              <Button name="Sign up" />
+            </Link>
+          )}
         </Container>
       </Container>
     </section>

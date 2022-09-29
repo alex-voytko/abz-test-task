@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, memo } from "react";
 
 import { appContext } from "../../App";
 import Button from "../../components/Button";
@@ -11,10 +11,10 @@ function UserSection({ maxPage, curPage, isLoading }) {
   const { fetchUsers } = useContext(appContext);
 
   return (
-    <section className="user-section">
+    <section id="user-section">
       <Container>
         <Container className="user-section-wrapper">
-          <Title>Working with GET request</Title>
+          <Title id="users-anchor">Working with GET request</Title>
           <UserList />
           {maxPage.current !== curPage && !isLoading && (
             <Button name="Show more" onClick={() => fetchUsers(curPage + 1)} />
@@ -26,4 +26,4 @@ function UserSection({ maxPage, curPage, isLoading }) {
   );
 }
 
-export default UserSection;
+export default memo(UserSection);

@@ -25,7 +25,26 @@ $standartAnimation: all 0.3s ease-in;
   -o-transition: $standartAnimation;
 }
 
-/* Mixins */
+/* Inputs */
+%inputStyles {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid $inputBorderColor;
+  border-radius: 4px;
+  color: $blackColor;
+  background-color: transparent;
+}
+
+/* Tooltips */
+%tooltips {
+  display: block;
+  font-size: 12px;
+  line-height: 14px;
+  padding-left: 16px;
+  margin-top: 4px;
+}
+
+/* Buttons */
 @mixin btn($width) {
   width: $width;
   height: 34px;

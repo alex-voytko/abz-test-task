@@ -1,37 +1,71 @@
-import { useRef } from "react";
+import { useState, memo } from "react";
 import { useForm } from "react-hook-form";
 import classNames from "classnames";
 
 import Container from "../Container";
 import Button from "../Button";
 import Loader from "../Loader";
-import { input } from "./patterns";
+import { input } from "./validation";
+import isDisabled from "./isDisabled";
 
-function Form({ positions }) {
-  const imgFile = useRef();
+function Form({ positions, onSubmit }) {
+  const [imgName, setImgName] = useState("Upload your photo");
   const {
     register,
     formState: { errors },
     handleSubmit,
+    getValues,
+    setError,
   } = useForm({ mode: "onChange" });
-  console.log(errors);
-  //   const handleChange = (e) => {};
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log(imgFile.current.files[0]);
-    const formData = new FormData(e.currentTarget);
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
+
+  const handleImageInput = (e) => {
+    const { files } = e.target;
+    if (files) {
+      const reader = new FileReader();
+      if (files[0]?.name) setImgName(files[0].name);
+      else {
+        setImgName("Upload your photo");
+        return;
+      }
+      reader.readAsDataURL(files[0]);
+      reader.onload = (e) => {
+        const image = new Image();
+        image.src = e.target.result;
+        image.onload = (e) => {
+          if (e.target.height < 70 || e.target.width < 70) {
+            setError("photo", {
+              type: "checkResolution",
+              message: input.imageResolution,
+            });
+          }
+        };
+      };
     }
   };
+
   const styles = {
     name: classNames({ "is-errored": errors.name }),
     validName: classNames("validation-tip", { "is-errored": errors.name }),
     email: classNames({ "is-errored": errors.email }),
     validEmail: classNames("validation-tip", { "is-errored": errors.email }),
     phone: classNames({ "is-errored": errors.phone }),
-    validPhone: classNames("validation-tip", { "is-errored": errors.phone }),
+    validPhone: classNames("validation-tip", {
+      "is-errored": errors.phone,
+    }),
+    staticPhone: classNames("validation-tip", {
+      phone: errors.phone,
+      "is-errored": errors.phone,
+    }),
+    image: classNames({ "is-errored": errors.photo }),
+    validImage: classNames("validation-tip", { "is-errored": errors.photo }),
+    addLabel: classNames("additional-label", {
+      "has-loaded": imgName !== "Upload your photo",
+    }),
+    imgInputContainer: classNames("img-load-container", {
+      "is-errored": errors.photo,
+    }),
   };
+
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <Container className="input-container">
@@ -62,25 +96,49 @@ function Form({ positions }) {
           )}
         </Container>
         <Container className="input-field-container">
-          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="email"
+            placeholder="Email"
+            className={styles.email}
+            {...register("email", {
+              required: input.required,
+              pattern: {
+                value: input.emailValid,
+                message: input.messageEmailValid,
+              },
+              minLength: { value: 2, message: input.messageEmail },
+              maxLength: { value: 100, message: input.messageEmail },
+            })}
+          />
           <label htmlFor="email" className={styles.email}>
             Email
           </label>
+          {errors?.email && (
+            <span className={styles.validEmail}>{errors?.email?.message}</span>
+          )}
         </Container>
         <Container className="input-field-container">
           <input
             className={styles.phone}
             type="tel"
-            name="phone"
             placeholder="Phone"
-            required
+            {...register("phone", {
+              required: input.required,
+              pattern: {
+                value: input.phoneValid,
+                message: input.messagePhone,
+              },
+            })}
           />
           <label htmlFor="phone" className={styles.phone}>
             Phone
           </label>
-          <span htmlFor="phone" className={styles.validPhone}>
+          <span htmlFor="phone" className={styles.staticPhone}>
             +38 (XXX) XXX - XX - XX
           </span>
+          {errors?.phone && (
+            <span className={styles.validPhone}>{errors?.phone?.message}</span>
+          )}
         </Container>
       </Container>
       <Container className="radio-select-container">
@@ -90,11 +148,11 @@ function Form({ positions }) {
             <Container className="radio-label-container" key={name + id}>
               <input
                 type="radio"
-                name="position_id"
                 value={id}
                 id={name}
-                required
                 defaultChecked={!index}
+                {...register("position_id")}
+                required
               />
               <label htmlFor={name} className="radio-label">
                 {name}
@@ -105,12 +163,35 @@ function Form({ positions }) {
           <Loader />
         )}
       </Container>
-      <Container className="img-load-container">
-        <input type="file" ref={imgFile} name="photo" required />
+      <Container className={styles.imgInputContainer}>
+        <label htmlFor="photo" className={styles.image}>
+          Upload
+        </label>
+        <span className={styles.addLabel}>{imgName}</span>
+        <input
+          type="file"
+          className={styles.image}
+          {...register("photo", {
+            required: input.required,
+            validate: {
+              checkSize: (photo) => photo[0].size <= 5000000 || input.imageSize,
+              checkType: (photo) =>
+                photo[0].type === "image/jpeg" || input.imageType,
+            },
+            onChange: handleImageInput,
+          })}
+        />
+        {errors?.photo && (
+          <span className={styles.validImage}>{errors?.photo?.message}</span>
+        )}
       </Container>
-      <Button name="Sign up" type="submit" />
+      <Button
+        name="Sign up"
+        type="submit"
+        disabled={isDisabled(getValues(), errors)}
+      />
     </form>
   );
 }
 
-export default Form;
+export default memo(Form);

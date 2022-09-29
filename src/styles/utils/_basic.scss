@@ -31,12 +31,7 @@ button {
   }
 }
 input {
-  display: block;
-  padding: 14px 16px;
-  border: 1px solid $inputBorderColor;
-  border-radius: 4px;
-  color: $blackColor;
-  background-color: transparent;
+  @extend %inputStyles;
   &::placeholder {
     color: $inputPlaceholderColor;
   }
